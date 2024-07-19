@@ -12,6 +12,9 @@ class bus_agency(models.Model):
     description = models.TextField()
     added_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 class bus(models.Model):
     bus_type_choices =[
         ('AC','Ac'),
@@ -25,9 +28,15 @@ class bus(models.Model):
     total_seat = models.PositiveIntegerField()
     added_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return (f"{self.company} - Bus_No: {self.number}")
+
 class route(models.Model):
     origin = models.CharField(max_length=250)
     destination = models.CharField(max_length=250)
+
+    def __str__(self) -> str:
+        return (f"{self.origin} - {self.destination}")
 
 
 class trip(models.Model):
@@ -37,6 +46,12 @@ class trip(models.Model):
     trip_date = models.DateField()
     departure_time = models.TimeField()
 
+    def save(self, *args, **kwargs):
+        self.available_seats = self.bus.total_seat
+        super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return (f'{self.bus.company} -Bus_No: {self.bus.number} - {self.route}')
 
 class booking(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)

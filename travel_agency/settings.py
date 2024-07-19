@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'custom_auth',
     'transport_api',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,11 @@ AUTH_USER_MODEL='custom_auth.User'  # for custom Auth
 # make make static path for images
 MEDIA_URL='media/'
 MEDIA_ROOT=BASE_DIR / 'media'
+
+# DRF settings
+EST_FRAMEWORK = {
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ],
+}
