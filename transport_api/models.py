@@ -43,6 +43,7 @@ class trip(models.Model):
     bus = models.ForeignKey(bus, on_delete= models.CASCADE)
     route = models.ForeignKey(route, on_delete= models.CASCADE)
     available_seats = models.PositiveIntegerField()
+    price =  models.DecimalField(max_digits=6, decimal_places=2,default=1000)
     trip_date = models.DateField()
     departure_time = models.TimeField()
 
@@ -61,6 +62,15 @@ class booking(models.Model):
     status = models.CharField(max_length=75, default='Booked')
     seat_number = models.PositiveIntegerField()
    
+
+    def save(self, *args, **kwargs):
+        if self.trip.bus.type == 'AC':
+            self.total_amount = self.trip.price + 200
+        elif self.trip.bus.type == 'Sleeper':
+             self.total_amount = self.trip.price + 400
+        else:
+             self.total_amount = self.trip.price 
+        super().save(*args, **kwargs)
     
 
 
