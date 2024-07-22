@@ -63,14 +63,6 @@ class booking(models.Model):
     seat_number = models.PositiveIntegerField()
    
 
-    def save(self, *args, **kwargs):
-        if self.trip.bus.type == 'AC':
-            self.total_amount = self.trip.price + 200
-        elif self.trip.bus.type == 'Sleeper':
-             self.total_amount = self.trip.price + 400
-        else:
-             self.total_amount = self.trip.price 
-        super().save(*args, **kwargs)
     
 
 
